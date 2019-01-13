@@ -1,0 +1,32 @@
+{
+  "name": "Sudoku",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --env production",
+    "start": "webpack-dev-server --hot --env development"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "optimize-js-plugin": "0.0.4",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-hot-loader": "^4.6.3",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.0",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "uuid": "^3.3.2"
+  }
+}
