@@ -13,76 +13,59 @@ class App extends React.Component {
     };
     
     componentWillMount() {
-        // for(let i=0; i < startBoard.length; i++) {
-        //     if(startBoard[i] === "."){
-        //         startBoard[i] = '';
-        //     }
-        //     return startBoard;
-        // }
-        // tutaj let, bo sie zmienia??
-        let startBoard = sudoku.generate("hard").split('');
-        
-        this.setState({
-            initialBoard: startBoard,
-            board: startBoard
-        })
-
+        this.newGame();
     }
 
-    handleType(e) {
-        let gameBoard = this.state.board;
+    handleChange(e) {
+        let currentBoard = this.state.board;
         const oriBoard = this.state.initialBoard;
         let rep = e.currentTarget.value;
         
-        if (gameBoard[e.target.id] !== oriBoard[e.target.id] || gameBoard[e.target.id] === '.') {
-            gameBoard[e.currentTarget.id] = rep;
-            // console.log(e.currentTarget.value);
-            console.log(gameBoard[e.currentTarget.id]);
-            console.log(oriBoard[e.currentTarget.id]);
+        if (currentBoard[e.target.id] !== oriBoard[e.target.id] || oriBoard[e.target.id] === '.') {
+            currentBoard[e.target.id] = rep;
+            this.setState({ board: currentBoard })
         }
-
-        // gameBoard.forEach = (val, index) => {
-        //     if(e.currentTarget.value === val && e.target.id === index) {
-        //                 this.newVal = e.currentTarget.value;
-        //                 console.log(this.newVal);
-        //                 gameBoard[e.target.id] = this.newVal;
-        //             }
-        //             return gameBoard;
-        // }
-        //this.newVal='';
-        // console.log(this.newVal)
-        
-
-        // oriBoard.forEach = (val, index) => {
-        //     if(e.currentTarget.value === val && e.target.id === index) {
-        //         this.newVal = e.currentTarget.value;
-        //         console.log(this.newVal);
-        //         gameBoard[e.target.id] = this.newVal;
-        //     }
-        //     return gameBoard;
-        // }
-        console.log(gameBoard)
-        this.setState({
-            board: gameBoard
-        })
-        
     }
 
     newGame() {
-        // this.newVal; // przyjmuje ostatnią wartość inputa i mapuje na wszystkie z '.'
-
-        let startBoard = sudoku.generate("hard").split('');
-
+        const startBoard = sudoku.generate("hard").split('');
         this.setState({
-            initialBoard: startBoard,
-            board: startBoard
+            initialBoard: [...startBoard],
+            board: [...startBoard]
         })
     }
 
-    // isEnabled(e) {
-    //     let isEnabled = oriBoard[e.currentTarget.id] ===  gameBoard[e.target.id] && gameBoard[e.target.id] != '.';
-    //     return isEnabled;
-    // }
+    restart() {
+        let initialBoard = this.state.initialBoard;
+        this.setState({ board: [...initialBoard] })
+    }
+
+    solve() {
+        let initialBoard = this.state.initialBoard;
+        const solvedBoard = sudoku.solve(initialBoard.join('')).split('');
+        this.setState({ board: solvedBoard })
+    }
+
+    check() {
+        let currentBoard = this.state.board;
+        let initialBoard = this.state.initialBoard;
+        const solvedBoard = sudoku.solve(initialBoard.join('')).split('');
+
+        const compare = (currentBoard, solvedBoard) => {
+            let errs = 0;
+                for(let i = currentBoard.length; i--;) {
+                    if (currentBoard[i] !== solvedBoard[i]) {
+                        errs++; 
+                    }
+                }
+            if(errs === 0) {
+                return alert('great');
+            } else {
+                return alert(`lame. mistakes: ${errs}`);
+            }
+        }
+        compare(currentBoard, solvedBoard);
+    }
 
     render() {
         return (
@@ -90,15 +73,13 @@ class App extends React.Component {
                 <h1>sudoku</h1>
                 <Board
                     nums={this.state.board}
-                    handleType={this.handleType.bind(this)}
-                    newVal={this.newVal}
-                    //disabled={this.isEnabled}
+                    handleChange={this.handleChange.bind(this)}
                 />
                 <div>
                     <button onClick={this.newGame.bind(this)}>new game</button>
-                    <button>check</button>
-                    <button>solve</button>
-                    <button>restart</button>
+                    <button onClick={this.check.bind(this)}>check</button>
+                    <button onClick={this.solve.bind(this)}>solve</button>
+                    <button onClick={this.restart.bind(this)}>restart</button>
                 </div>
             </React.Fragment>
         )

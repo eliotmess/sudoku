@@ -5,8 +5,7 @@ const Tile = props =>
         type="number"
         min="0"
         max="9"
-        className={props.style}
-        //disabled={props.disabled}
+        className={props.className}
         //disabled
     // co z takim atrybutem jak disabled - czy da się napisać instrukcję warunkową
         key={props.id}
