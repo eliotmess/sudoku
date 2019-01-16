@@ -1,0 +1,16 @@
+.sudokuBoard {
+    display: flex;
+    flex-wrap: wrap;
+    width: 630px;
+}
+
+.sudokuTile {
+    /* flex: 11%; */
+    height: 70px;
+    width: 70px;
+    text-align: center;
+    font-size: 30px;
+    box-sizing: border-box;
+    padding: 0;
+    padding-left: 18px;
+}
