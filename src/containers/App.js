@@ -25,6 +25,16 @@ class App extends React.Component {
             currentBoard[e.target.id] = rep;
             this.setState({ board: currentBoard })
         }
+
+        const compare = (currentBoard, oriBoard) => {
+            for(let i = currentBoard.length; i--;) {
+                if (currentBoard[i] !== oriBoard[i]) {
+                    this.auto = false;
+                    console.log('ok')
+                }
+            };
+        }
+        compare(currentBoard, oriBoard);
     }
 
     newGame() {
@@ -53,16 +63,16 @@ class App extends React.Component {
 
         const compare = (currentBoard, solvedBoard) => {
             let errs = 0;
-                for(let i = currentBoard.length; i--;) {
-                    if (currentBoard[i] !== solvedBoard[i]) {
-                        errs++; 
-                    }
+            for(let i = currentBoard.length; i--;) {
+                if (currentBoard[i] !== solvedBoard[i]) {
+                    errs++; 
                 }
+            };
             if(errs === 0) {
-                return alert('great');
+                return alert('great.');
             } else {
                 return alert(`lame. mistakes: ${errs}`);
-            }
+            };
         }
         compare(currentBoard, solvedBoard);
     }
@@ -73,10 +83,15 @@ class App extends React.Component {
                 <h1>sudoku</h1>
                 <Board
                     nums={this.state.board}
+                    initNums={this.state.initialBoard}
                     handleChange={this.handleChange.bind(this)}
+                    auto={this.auto}
                 />
                 <div>
                     <button onClick={this.newGame.bind(this)}>new game</button>
+                    <button onClick={this.newGame.bind(this)}>easy</button>
+                    <button onClick={this.check.bind(this)}>medium</button>
+                    <button onClick={this.solve.bind(this)}>hard</button>
                     <button onClick={this.check.bind(this)}>check</button>
                     <button onClick={this.solve.bind(this)}>solve</button>
                     <button onClick={this.restart.bind(this)}>restart</button>

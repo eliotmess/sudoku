@@ -9,18 +9,23 @@ class Board extends React.Component {
 
     render() {
         const nums = this.props.nums;
+        let initNums = this.props.initNums;
 
         return (
             <div>
                 <div className={style.sudokuBoard}>
-                    {nums.map((item, index) =>
-                        <Tile
-                            value={item}
-                            className={style.sudokuTile}
-                            key={index}
-                            id={index}
-                            onChange={(e) => this.props.handleChange(e)}
-                        />
+                    {nums.map((item, index) => {
+                        console.log(item);
+                        return (
+                            <Tile
+                                value={item}
+                                className={`${style.sudokuTile} ${(nums[index] === initNums[index]) ? style.sudokuTileBlock : null}`}
+                                key={index}
+                                id={index}
+                                onChange={(e) => this.props.handleChange(e)}
+                            />
+                        )
+                    }
                     )}
                 </div>
             </div>
