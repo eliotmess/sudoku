@@ -7,7 +7,7 @@ class Board extends React.Component {
     render() {
         const nums = this.props.nums;
         const initNums = this.props.initNums;
-        const disabled = disabled;
+        //const disabled = disabled;
         const {board, sudokuBoard, sudokuTile, sudokuTileBlock} = style;
 
         return (
@@ -19,7 +19,7 @@ class Board extends React.Component {
                                 value={item}
                                 className={`${sudokuTile} ${(nums[index] === initNums[index]) && initNums[index] !== '.' ? sudokuTileBlock : null}`}
                                 key={index}
-                                disabled={`${(nums[index] === initNums[index]) && initNums[index] !== '.' ? null : this.props.disabled}`}
+                                //disabled={`${(nums[index] === initNums[index]) && initNums[index] !== '.' ? null : this.props.disabled}`}
                                 id={index}
                                 onChange={(e) => this.props.handleChange(e)}
                             />

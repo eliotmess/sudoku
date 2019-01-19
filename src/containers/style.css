@@ -112,7 +112,8 @@ body {
     outline: none;
 }
 
-.btn:hover {
+.btn:hover,
+.btnLvl:hover {
     font-size: 22px;
     transition: 100ms;
     background: #f8e2ae;

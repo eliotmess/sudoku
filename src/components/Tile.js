@@ -8,7 +8,7 @@ const Tile = props => {
             min="0"
             max="9"
             className={className}
-            {...disabled}
+            //{...disabled}
             key={id}
             id={id}
             value={value}
