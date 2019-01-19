@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './Board.js';
+import style from './style.css';
 import { hot } from'react-hot-loader';
 import sudoku from 'sudoku-umd';
 
@@ -8,7 +9,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             initialBoard: [],
-            board: []
+            board: [],
+            lvl: 'easy'
         };
     };
     
@@ -25,24 +27,26 @@ class App extends React.Component {
             currentBoard[e.target.id] = rep;
             this.setState({ board: currentBoard })
         }
-
-        const compare = (currentBoard, oriBoard) => {
-            for(let i = currentBoard.length; i--;) {
-                if (currentBoard[i] !== oriBoard[i]) {
-                    this.auto = false;
-                    console.log('ok')
-                }
-            };
-        }
-        compare(currentBoard, oriBoard);
     }
 
     newGame() {
-        const startBoard = sudoku.generate("hard").split('');
+        let startBoard = sudoku.generate(this.state.lvl).split('');
         this.setState({
             initialBoard: [...startBoard],
             board: [...startBoard]
         })
+    }
+
+    setEasy() {
+        this.setState({ lvl: 'easy' }, () => { this.newGame() });
+    }
+
+    setMedium() {
+        this.setState({ lvl: 'medium' }, () => { this.newGame() });
+    }
+
+    setHard() {
+        this.setState({ lvl: 'hard' }, () => { this.newGame() });
     }
 
     restart() {
@@ -53,7 +57,7 @@ class App extends React.Component {
     solve() {
         let initialBoard = this.state.initialBoard;
         const solvedBoard = sudoku.solve(initialBoard.join('')).split('');
-        this.setState({ board: solvedBoard })
+        this.setState({ board: solvedBoard });
     }
 
     check() {
@@ -78,25 +82,36 @@ class App extends React.Component {
     }
 
     render() {
+
+        const {main, header, btnWrapper, btnRow, btn, btnLvl, selected} = style;
+
+
         return (
-            <React.Fragment>
-                <h1>sudoku</h1>
+            <main className={main}>
+                <h1 className={header}>sudoku</h1>
                 <Board
                     nums={this.state.board}
                     initNums={this.state.initialBoard}
                     handleChange={this.handleChange.bind(this)}
-                    auto={this.auto}
                 />
-                <div>
-                    <button onClick={this.newGame.bind(this)}>new game</button>
-                    <button onClick={this.newGame.bind(this)}>easy</button>
-                    <button onClick={this.check.bind(this)}>medium</button>
-                    <button onClick={this.solve.bind(this)}>hard</button>
-                    <button onClick={this.check.bind(this)}>check</button>
-                    <button onClick={this.solve.bind(this)}>solve</button>
-                    <button onClick={this.restart.bind(this)}>restart</button>
+                <div className={btnWrapper}>
+                    <div className={btnRow}>
+                        <button className={btn} 
+                                onClick={this.newGame.bind(this)}>new game</button>
+                        <button className={`${btn} ${btnLvl} ${(this.state.lvl === 'easy') && selected}`}
+                                onClick={this.setEasy.bind(this)}>easy</button>
+                        <button className={`${btn} ${btnLvl} ${(this.state.lvl === 'medium') && selected}`}
+                                onClick={this.setMedium.bind(this)}>medium</button>
+                        <button className={`${btn} ${btnLvl} ${(this.state.lvl === 'hard') && selected}`}
+                                onClick={this.setHard.bind(this)}>hard</button>
+                    </div>
+                    <div className={btnRow}>
+                        <button className={btn} onClick={this.check.bind(this)}>check</button>
+                        <button className={btn} onClick={this.solve.bind(this)}>solve</button>
+                        <button className={btn} onClick={this.restart.bind(this)}>restart</button>
+                    </div>
                 </div>
-            </React.Fragment>
+            </main>
         )
     }
 };

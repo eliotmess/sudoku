@@ -1,26 +1,25 @@
 import React from 'react';
-import style from './Board.css';
+import style from './style.css';
 import Tile from '../components/Tile.js'
 
 class Board extends React.Component {
 
-    // jak warunkowo dodać klasę wygląd do tych elementów króre chce
-    
-
     render() {
         const nums = this.props.nums;
-        let initNums = this.props.initNums;
+        const initNums = this.props.initNums;
+        const disabled = disabled;
+        const {board, sudokuBoard, sudokuTile, sudokuTileBlock} = style;
 
         return (
-            <div>
-                <div className={style.sudokuBoard}>
+            <div className={board}>
+                <div className={sudokuBoard}>
                     {nums.map((item, index) => {
-                        console.log(item);
                         return (
                             <Tile
                                 value={item}
-                                className={`${style.sudokuTile} ${(nums[index] === initNums[index]) ? style.sudokuTileBlock : null}`}
+                                className={`${sudokuTile} ${(nums[index] === initNums[index]) && initNums[index] !== '.' ? sudokuTileBlock : null}`}
                                 key={index}
+                                disabled={`${(nums[index] === initNums[index]) && initNums[index] !== '.' ? null : this.props.disabled}`}
                                 id={index}
                                 onChange={(e) => this.props.handleChange(e)}
                             />
